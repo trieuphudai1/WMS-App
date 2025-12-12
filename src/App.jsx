@@ -3,7 +3,7 @@ import './App.css'
 function App() {
 
   return (
-    <p>Initial for WMS App</p>
+    <p className="a">Initial for WMS Appd</p>
   )
 }
 
