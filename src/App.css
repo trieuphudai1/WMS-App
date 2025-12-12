@@ -1,0 +1,40 @@
+/* Reset nhẹ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* App wrapper để nhìn thấy màu nền */
+.app {
+    min-height: 100vh;
+    padding: 2rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light mode */
+.app {
+    background: #ffffff;
+    color: #111111;
+}
+
+/* Dark mode */
+.dark .app {
+    background: #1a1a1a;
+    color: #ffffff;
+}
+
+/* Button đơn giản */
+button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #444;
+    color: white;
+}
+
+.dark button {
+    background: #888;
+    color: black;
+}

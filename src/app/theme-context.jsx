@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 const STORAGE_KEY = 'wms-theme';
@@ -9,13 +10,8 @@ const prefersDark =
     window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 function applyTheme(theme) {
-    if (typeof document === 'undefined') return;
     const root = document.documentElement;
-    if (theme === 'dark') {
-        root.classList.add('dark');
-    } else {
-        root.classList.remove('dark');
-    }
+    root.classList.toggle('dark', theme === 'dark');
 }
 
 export function ThemeProvider({ children }) {
@@ -23,26 +19,31 @@ export function ThemeProvider({ children }) {
         typeof window !== 'undefined'
             ? window.localStorage.getItem(STORAGE_KEY)
             : null;
-    const [theme, setTheme] = useState(stored ?? (prefersDark ? 'dark' : 'light'));
+
+    const [theme, setTheme] = useState(
+        stored ?? (prefersDark ? 'dark' : 'light')
+    );
 
     useEffect(() => {
         applyTheme(theme);
-        if (typeof window !== 'undefined') {
-            window.localStorage.setItem(STORAGE_KEY, theme);
-        }
+        window.localStorage.setItem(STORAGE_KEY, theme);
     }, [theme]);
 
     const value = useMemo(
         () => ({
             theme,
+            setTheme,
             toggleTheme: () =>
                 setTheme((current) => (current === 'dark' ? 'light' : 'dark')),
-            setTheme,
         }),
-        [theme],
+        [theme]
     );
 
-    return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+    return (
+        <ThemeContext.Provider value={value}>
+            {children}
+        </ThemeContext.Provider>
+    );
 }
 
 export function useTheme() {
